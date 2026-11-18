@@ -117,4 +117,7 @@ Repeated runs to measure variance, a real open-source C repository, the Java →
 
 ## Team
 
-Balla Santhosh — B.Tech CSE (AI & ML), PES University. *(Add teammates here.)*
+Balla Santhosh - PES1UG24AM063
+Arya C A - PES1UG24AM053
+Bhoomika Kshatriya - PES1UG24AM068
+Harsh Agarwal - PES1UG24AM112  
