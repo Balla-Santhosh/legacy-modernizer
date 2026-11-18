@@ -1,0 +1,30 @@
+{
+  "first_attempt": {
+    "n": 13,
+    "compile_pass": 0.8461538461538461,
+    "test_pass": 0.8205128205128205,
+    "speedup_term": 0.0013345843498454347,
+    "warning_term": 0.16363636363636364,
+    "mean_speedup": 1.0120984248885918,
+    "mean_warnings": 1.6363636363636365,
+    "score": 0.6504
+  },
+  "after_repairs": {
+    "n": 13,
+    "compile_pass": 0.8461538461538461,
+    "test_pass": 0.8205128205128205,
+    "speedup_term": 0.0013345843498454347,
+    "warning_term": 0.16363636363636364,
+    "mean_speedup": 1.0120984248885918,
+    "mean_warnings": 1.6363636363636365,
+    "score": 0.6504
+  },
+  "llm_usage": {
+    "calls": 0,
+    "prompt_chars": 0,
+    "completion_chars": 0,
+    "approx_tokens": 0
+  },
+  "replies_from_recording": 13,
+  "empty_replies": 0
+}

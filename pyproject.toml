@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "legacy-modernizer"
+version = "0.1.0"
+description = "Optimization-driven multi-agent assistant for legacy C/Java -> C++/Python migration"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "tree-sitter>=0.23",
+    "tree-sitter-c>=0.23",
+    "tree-sitter-java>=0.23",
+    "chromadb>=0.5",
+    "langchain>=0.3",
+    "langchain-core>=0.3",
+    "bandit>=1.7",
+]
+
+[project.optional-dependencies]
+openai = ["langchain-openai"]
+anthropic = ["langchain-anthropic"]
+google = ["langchain-google-genai"]
+ollama = ["langchain-ollama"]
+textgrad = ["textgrad"]
+dspy = ["dspy"]
+dev = ["pytest>=8"]
+
+[project.scripts]
+modernize = "legacy_modernizer.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

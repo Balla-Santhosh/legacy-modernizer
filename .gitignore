@@ -1,0 +1,27 @@
+# Python
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+
+# Work folders: compiled binaries, indexes and the early runs affected by empty replies
+.modernizer/
+.mod_hard/
+.mod_hard2/
+.mod_low/work/
+.mod_low/index/
+migrated/
+demo_out/
+
+# Archives and local copies
+*.zip
+
+# Secrets: API keys are never stored in files; keep it that way
+.env
+*.key
+
+# Kept on purpose (not ignored):
+#   .mod_low/llm_cache/  recorded model replies, so every result replays offline
+#   opt_runs/            optimizer histories and the best prompt
+#   results/             B0, B1 and B2 outputs
+#   docs/                slides, prep guide, project log

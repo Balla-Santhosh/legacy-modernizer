@@ -1,0 +1,8 @@
+{"cases": [
+  {"stdin": "host=localhost\nport=8080\n# comment\n\nmode=fast\n"},
+  {"stdin": "a=1\nbroken\nb=2\n"},
+  {"stdin": "a=1\n9lives=yes\n"},
+  {"stdin": "x=1\ny=2\nx=3\n"},
+  {"stdin": "a=1\nb=2\nc=3\nd=4\ne=5\nf=6\ng=7\nh=8\ni=9\n"},
+  {"stdin": "eq=a=b=c\nempty=\n"}
+]}

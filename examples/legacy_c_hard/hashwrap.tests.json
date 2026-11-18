@@ -1,0 +1,8 @@
+{"cases": [
+  {"args": ["hello", "world"]},
+  {"args": ["a", ""]},
+  {"args": ["The quick brown fox jumps over the lazy dog"]},
+  {"args": ["zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"]},
+  {"args": []},
+  {"args": ["~~~~", "été"]}
+]}

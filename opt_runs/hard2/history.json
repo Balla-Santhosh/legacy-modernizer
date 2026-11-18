@@ -1,0 +1,545 @@
+{
+  "seed_prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.\nTranslate the given C program into a single, complete C++17 source file.\nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.\nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.",
+  "best_prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.\nTranslate the given C program into a single, complete C++17 source file.\nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.\nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.",
+  "curve": [
+    {
+      "round": 0,
+      "val": {
+        "n": 4,
+        "compile_pass": 0.75,
+        "test_pass": 0.75,
+        "speedup_term": 0.0,
+        "warning_term": 0.10000000000000002,
+        "mean_speedup": null,
+        "mean_warnings": 1.0,
+        "score": 0.59
+      },
+      "files": [
+        {
+          "file": "bits.c",
+          "status": "ok",
+          "warnings": 2,
+          "detail": ""
+        },
+        {
+          "file": "config_load.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "The reply contained no code. Return the complete program in one fenced code block."
+        },
+        {
+          "file": "csv_fields.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "float_accum.c",
+          "status": "ok",
+          "warnings": 1,
+          "detail": ""
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "val": {
+        "n": 4,
+        "compile_pass": 0.75,
+        "test_pass": 0.75,
+        "speedup_term": 0.0,
+        "warning_term": 0.10000000000000002,
+        "mean_speedup": null,
+        "mean_warnings": 1.0,
+        "score": 0.59
+      }
+    },
+    {
+      "round": 2,
+      "val": {
+        "n": 4,
+        "compile_pass": 0.75,
+        "test_pass": 0.75,
+        "speedup_term": 0.0,
+        "warning_term": 0.10000000000000002,
+        "mean_speedup": null,
+        "mean_warnings": 1.0,
+        "score": 0.59
+      }
+    },
+    {
+      "round": 3,
+      "val": {
+        "n": 4,
+        "compile_pass": 0.75,
+        "test_pass": 0.75,
+        "speedup_term": 0.0,
+        "warning_term": 0.10000000000000002,
+        "mean_speedup": null,
+        "mean_warnings": 1.0,
+        "score": 0.59
+      }
+    }
+  ],
+  "rounds": [
+    {
+      "round": 1,
+      "current_val": 0.59,
+      "train": {
+        "n": 9,
+        "compile_pass": 0.6666666666666666,
+        "test_pass": 0.6296296296296297,
+        "speedup_term": -0.02214425888241076,
+        "warning_term": 0.13333333333333333,
+        "mean_speedup": 0.8709740677896967,
+        "mean_warnings": 1.3333333333333333,
+        "score": 0.503
+      },
+      "gradient": "1. **Enforce output format** \u2013 Require the model to return *only* a single, complete C++17 source file wrapped in one fenced code block; no explanations or extra text.\n\n2. **Preserve legacy parsing semantics** \u2013 Instruct the model to use the same low\u2011level parsing functions (e.g., `strtol`/`atoi`) and to reproduce the exact \u201cstopped at \u2026\u201d behaviour when a non\u2011numeric token is encountered, matching the original output and exit code.\n\n3. **Leave macros untouched** \u2013 Tell the model not to modify existing macro definitions (no added parentheses, no side\u2011effect elimination) so their original evaluation order and double\u2011evaluation semantics are retained.\n\n4. **Maintain exact I/O formatting** \u2013 Require that all output (including `printf`\u2011style format strings, whitespace, and use of `stderr` vs `stdout`) be identical to the C version; prefer `std::printf` or `std::cout` only when the format can be reproduced verbatim.\n\n5. **Avoid \u201cwarning\u2011silencing\u201d rewrites** \u2013 The prompt should allow the generated code to compile with warnings; do not ask the model to suppress or \u201cfix\u201d warnings that do not affect observable behaviour.",
+      "candidates": [
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.  \nTranslate the given C program into a single, complete C++17 source file.  \nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.  \nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.  \n\n- Return only the translated file wrapped in a single fenced code block; no explanations or extra text.  \n- Preserve low\u2011level parsing behavior (e.g., strtol, atoi) and reproduce any \u201cstopped at \u2026\u201d messages exactly.  \n- Do not alter existing macro definitions; keep their original syntax and evaluation order.  \n- Keep all output formatting identical (including printf strings, whitespace, stderr/stdout) and do not modify code solely to silence warnings.",
+          "val": {
+            "n": 4,
+            "compile_pass": 0.25,
+            "test_pass": 0.25,
+            "speedup_term": 0.0,
+            "warning_term": 0.4,
+            "mean_speedup": null,
+            "mean_warnings": 4.0,
+            "score": 0.16
+          },
+          "files": [
+            {
+              "file": "bits.c",
+              "status": "compile_failed",
+              "warnings": 0,
+              "detail": "The reply contained no code. Return the complete program in one fenced code block."
+            },
+            {
+              "file": "config_load.c",
+              "status": "compile_failed",
+              "warnings": 0,
+              "detail": "The reply contained no code. Return the complete program in one fenced code block."
+            },
+            {
+              "file": "csv_fields.c",
+              "status": "compile_failed",
+              "warnings": 0,
+              "detail": "The reply contained no code. Return the complete program in one fenced code block."
+            },
+            {
+              "file": "float_accum.c",
+              "status": "ok",
+              "warnings": 4,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.  \nTranslate the given C program into a single, complete C++17 source file.  \nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.  \nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.  \n\n- Return only the source file wrapped in a single fenced code block; no explanations.  \n- Keep low\u2011level parsing calls (e.g.,\u202fstrtol,\u202fatoi) to match the original \u201cstopped at \u2026\u201d semantics.  \n- Do not alter existing macro definitions or change code merely to silence warnings; retain original evaluation order.  \n- Replicate all I/O formatting precisely; use std::printf or std::cout only when the format can be reproduced verbatim.",
+          "val": {
+            "n": 4,
+            "compile_pass": 0.25,
+            "test_pass": 0.25,
+            "speedup_term": 0.0,
+            "warning_term": 0.4,
+            "mean_speedup": null,
+            "mean_warnings": 4.0,
+            "score": 0.16
+          },
+          "files": [
+            {
+              "file": "bits.c",
+              "status": "compile_failed",
+              "warnings": 0,
+              "detail": "The reply contained no code. Return the complete program in one fenced code block."
+            },
+            {
+              "file": "config_load.c",
+              "status": "compile_failed",
+              "warnings": 0,
+              "detail": "The reply contained no code. Return the complete program in one fenced code block."
+            },
+            {
+              "file": "csv_fields.c",
+              "status": "compile_failed",
+              "warnings": 0,
+              "detail": "The reply contained no code. Return the complete program in one fenced code block."
+            },
+            {
+              "file": "float_accum.c",
+              "status": "ok",
+              "warnings": 4,
+              "detail": ""
+            }
+          ]
+        }
+      ],
+      "accepted": false,
+      "seconds": 204.5,
+      "train_files": [
+        {
+          "file": "hashwrap.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "int_reader.c",
+          "status": "tests 4/6",
+          "warnings": 1,
+          "detail": "case 2 args=[] stdin='5 6 seven 8\\n': stdout differs\n  expected: 'read 2 ints, sum 11, min 5, max 6, mean 5.50\\nstopped at \"seven\"\\n'\n  got:      'read 2 ints, sum 11, min 5, max 6, mean 5.50\\n'"
+        },
+        {
+          "file": "macro_eval.c",
+          "status": "ok",
+          "warnings": 4,
+          "detail": ""
+        },
+        {
+          "file": "matmul.c",
+          "status": "ok",
+          "warnings": 2,
+          "detail": ""
+        },
+        {
+          "file": "parse_nums.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "report_table.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "The reply contained no code. Return the complete program in one fenced code block."
+        },
+        {
+          "file": "ringbuf.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "The reply contained no code. Return the complete program in one fenced code block."
+        },
+        {
+          "file": "ticket_ids.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "The reply contained no code. Return the complete program in one fenced code block."
+        },
+        {
+          "file": "wordfreq.c",
+          "status": "ok",
+          "warnings": 1,
+          "detail": ""
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "current_val": 0.59,
+      "train": {
+        "n": 9,
+        "compile_pass": 0.6666666666666666,
+        "test_pass": 0.6296296296296297,
+        "speedup_term": -0.006268725838739209,
+        "warning_term": 0.13333333333333333,
+        "mean_speedup": 0.9616484355057091,
+        "mean_warnings": 1.3333333333333333,
+        "score": 0.5046
+      },
+      "gradient": "1. **Force a complete fenced C++17 source block** \u2013 state explicitly that the reply must contain the entire program inside a single ```cpp \u2026 ``` block; no \u201cno code\u201d shortcuts are allowed.\n\n2. **Preserve legacy parsing semantics** \u2013 tell the model to mimic the original C\u2019s token\u2011reading (e.g., `scanf`/`strtol` style) that stops at the first non\u2011numeric token and reports that token, rather than silently ignoring it.\n\n3. **Exact output fidelity** \u2013 require the migrated code to reproduce every literal line, newline, and diagnostic message (such as `stopped at \"\u2026\"`) with the same formatting and ordering as the source program.\n\n4. **Leave macros untouched** \u2013 instruct the agent not to add parentheses or otherwise change macro bodies, because legacy code may rely on their original side\u2011effect behavior.\n\n5. **Treat static\u2011analysis fixes as secondary** \u2013 after functional correctness is guaranteed, optionally suggest minimal clean\u2011up, but never at the expense of changing observable behaviour.",
+      "candidates": [
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.  \nTranslate the given C program into a single, complete C++17 source file.  \nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.  \nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.  \n\nEnclose the full translated program in a single fenced ```cpp \u2026``` code block; no placeholders.  \nPreserve the original C token\u2011reading behavior: stop at the first non\u2011numeric token and report it exactly.  \nOutput must match every literal line, newline, and diagnostic message (e.g., `stopped at \"\u2026\"`) with identical formatting and order.  \nDo not alter macro definitions; leave macro bodies unchanged. After functional correctness, you may suggest minimal clean\u2011up that does not change observable behaviour.",
+          "val": {
+            "n": 4,
+            "compile_pass": 0.5,
+            "test_pass": 0.5,
+            "speedup_term": 0.0,
+            "warning_term": 0.15,
+            "mean_speedup": null,
+            "mean_warnings": 1.5,
+            "score": 0.385
+          },
+          "files": [
+            {
+              "file": "bits.c",
+              "status": "compile_failed",
+              "warnings": 0,
+              "detail": "The reply contained no code. Return the complete program in one fenced code block."
+            },
+            {
+              "file": "config_load.c",
+              "status": "compile_failed",
+              "warnings": 0,
+              "detail": "The reply contained no code. Return the complete program in one fenced code block."
+            },
+            {
+              "file": "csv_fields.c",
+              "status": "ok",
+              "warnings": 0,
+              "detail": ""
+            },
+            {
+              "file": "float_accum.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.  \nTranslate the given C program into a single, complete C++17 source file.  \nThe response must consist of one fenced code block marked ```cpp` that contains the entire program; no \u201cno code\u201d shortcuts are allowed.  \nPreserve the program's observable behaviour exactly: the same output text, formatting, exit codes, and every diagnostic message (e.g.,\u202f`stopped at \"\u2026\"`) with identical ordering.  \nWhen translating input parsing, keep the original C token\u2011reading semantics: stop at the first non\u2011numeric character and report that token exactly as the legacy code does.  \nDo not modify macro definitions; keep their bodies unchanged.  \nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.  \nIf you suggest any static\u2011analysis clean\u2011ups, present them as optional hints that never alter observable behaviour.",
+          "val": {
+            "n": 4,
+            "compile_pass": 0.25,
+            "test_pass": 0.25,
+            "speedup_term": 0.0,
+            "warning_term": 0.4,
+            "mean_speedup": null,
+            "mean_warnings": 4.0,
+            "score": 0.16
+          },
+          "files": [
+            {
+              "file": "bits.c",
+              "status": "compile_failed",
+              "warnings": 0,
+              "detail": "The reply contained no code. Return the complete program in one fenced code block."
+            },
+            {
+              "file": "config_load.c",
+              "status": "compile_failed",
+              "warnings": 0,
+              "detail": "The reply contained no code. Return the complete program in one fenced code block."
+            },
+            {
+              "file": "csv_fields.c",
+              "status": "compile_failed",
+              "warnings": 0,
+              "detail": "The reply contained no code. Return the complete program in one fenced code block."
+            },
+            {
+              "file": "float_accum.c",
+              "status": "ok",
+              "warnings": 4,
+              "detail": ""
+            }
+          ]
+        }
+      ],
+      "accepted": false,
+      "seconds": 213.8,
+      "train_files": [
+        {
+          "file": "hashwrap.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "int_reader.c",
+          "status": "tests 4/6",
+          "warnings": 1,
+          "detail": "case 2 args=[] stdin='5 6 seven 8\\n': stdout differs\n  expected: 'read 2 ints, sum 11, min 5, max 6, mean 5.50\\nstopped at \"seven\"\\n'\n  got:      'read 2 ints, sum 11, min 5, max 6, mean 5.50\\n'"
+        },
+        {
+          "file": "macro_eval.c",
+          "status": "ok",
+          "warnings": 4,
+          "detail": ""
+        },
+        {
+          "file": "matmul.c",
+          "status": "ok",
+          "warnings": 2,
+          "detail": ""
+        },
+        {
+          "file": "parse_nums.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "report_table.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "The reply contained no code. Return the complete program in one fenced code block."
+        },
+        {
+          "file": "ringbuf.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "The reply contained no code. Return the complete program in one fenced code block."
+        },
+        {
+          "file": "ticket_ids.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "The reply contained no code. Return the complete program in one fenced code block."
+        },
+        {
+          "file": "wordfreq.c",
+          "status": "ok",
+          "warnings": 1,
+          "detail": ""
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "current_val": 0.59,
+      "train": {
+        "n": 9,
+        "compile_pass": 0.6666666666666666,
+        "test_pass": 0.6296296296296297,
+        "speedup_term": -0.01312806865408813,
+        "warning_term": 0.13333333333333333,
+        "mean_speedup": 0.9213667127378271,
+        "mean_warnings": 1.3333333333333333,
+        "score": 0.5039
+      },
+      "gradient": "1. **Mandate a single fenced code block** \u2013 the prompt must require the model to always emit the complete translated program inside one ```...``` block; otherwise treat it as a compile\u2011time failure.\n\n2. **Preserve legacy parsing semantics** \u2013 explicitly tell the model to keep the original input handling (e.g., `scanf`\u2011style conversion, stop at the first non\u2011numeric token, and reproduce any \u201cstopped at \u2026\u201d messages) rather than using stricter C++ parsers like `std::stoi` that throw or skip tokens.\n\n3. **Do not alter macro behavior** \u2013 instruct the agent to keep existing macros unchanged (no conversion to inline functions or added parentheses) so repeated\u2011side\u2011effects and missing parentheses remain exactly as in the C source.\n\n4. **Maintain original numeric types** \u2013 require that any arithmetic that was performed with `float` stay `float` (and `double` stay `double`) to avoid subtle output differences caused by higher precision.\n\n5. **Limit transformations to safety\u2011only** \u2013 allow modern idioms (RAII, `std::string`, `std::vector`) only when they do not change the program\u2019s observable side effects, order of evaluation, or exit codes.",
+      "candidates": [
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.  \nTranslate the given C program into a single, complete C++17 source file.  \nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.  \nUse modern, safe C++ idioms (std::string, std::vector, RAII) only when they do not change observable behavior, evaluation order, or exit codes.  \n\n- Emit the translated program inside exactly one fenced code block (```...```); any other output is a failure.  \n- Keep the original input parsing semantics (e.g., scanf\u2011style conversion) unchanged.  \n- Do not modify existing macros; preserve their exact text and side\u2011effects.  \n- Retain the original numeric types (float, double, etc.) in all calculations.",
+          "val": {
+            "n": 4,
+            "compile_pass": 0.5,
+            "test_pass": 0.5,
+            "speedup_term": 0.0,
+            "warning_term": 0.25,
+            "mean_speedup": null,
+            "mean_warnings": 2.5,
+            "score": 0.375
+          },
+          "files": [
+            {
+              "file": "bits.c",
+              "status": "compile_failed",
+              "warnings": 0,
+              "detail": "The reply contained no code. Return the complete program in one fenced code block."
+            },
+            {
+              "file": "config_load.c",
+              "status": "compile_failed",
+              "warnings": 0,
+              "detail": "The reply contained no code. Return the complete program in one fenced code block."
+            },
+            {
+              "file": "csv_fields.c",
+              "status": "ok",
+              "warnings": 2,
+              "detail": ""
+            },
+            {
+              "file": "float_accum.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.  \nTranslate the given C program into a single, complete C++17 source file and emit it inside one fenced code block (```...```).  \nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.  \nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.  \nPreserve the original input handling semantics (e.g., scanf\u2011style conversion, stop at the first non\u2011numeric token, and reproduce any legacy messages).  \nDo not modify existing macros; keep their definitions and side\u2011effect behavior exactly as in the source.  \nRetain the original numeric types; any float must remain float and any double must remain double.  \nApply modern idioms only when they do not change observable side effects, evaluation order, or exit codes.",
+          "val": {
+            "n": 4,
+            "compile_pass": 0.5,
+            "test_pass": 0.5,
+            "speedup_term": 0.0,
+            "warning_term": 0.3,
+            "mean_speedup": null,
+            "mean_warnings": 3.0,
+            "score": 0.37
+          },
+          "files": [
+            {
+              "file": "bits.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            },
+            {
+              "file": "config_load.c",
+              "status": "compile_failed",
+              "warnings": 0,
+              "detail": "The reply contained no code. Return the complete program in one fenced code block."
+            },
+            {
+              "file": "csv_fields.c",
+              "status": "compile_failed",
+              "warnings": 0,
+              "detail": "The reply contained no code. Return the complete program in one fenced code block."
+            },
+            {
+              "file": "float_accum.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            }
+          ]
+        }
+      ],
+      "accepted": false,
+      "seconds": 204.7,
+      "train_files": [
+        {
+          "file": "hashwrap.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "int_reader.c",
+          "status": "tests 4/6",
+          "warnings": 1,
+          "detail": "case 2 args=[] stdin='5 6 seven 8\\n': stdout differs\n  expected: 'read 2 ints, sum 11, min 5, max 6, mean 5.50\\nstopped at \"seven\"\\n'\n  got:      'read 2 ints, sum 11, min 5, max 6, mean 5.50\\n'"
+        },
+        {
+          "file": "macro_eval.c",
+          "status": "ok",
+          "warnings": 4,
+          "detail": ""
+        },
+        {
+          "file": "matmul.c",
+          "status": "ok",
+          "warnings": 2,
+          "detail": ""
+        },
+        {
+          "file": "parse_nums.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "report_table.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "The reply contained no code. Return the complete program in one fenced code block."
+        },
+        {
+          "file": "ringbuf.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "The reply contained no code. Return the complete program in one fenced code block."
+        },
+        {
+          "file": "ticket_ids.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "The reply contained no code. Return the complete program in one fenced code block."
+        },
+        {
+          "file": "wordfreq.c",
+          "status": "ok",
+          "warnings": 1,
+          "detail": ""
+        }
+      ]
+    }
+  ]
+}

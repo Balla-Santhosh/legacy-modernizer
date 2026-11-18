@@ -1,0 +1,9 @@
+{"cases": [
+  {"stdin": "push 1 push 2 dump pop size\n"},
+  {"stdin": "push 1 push 2 push 3 push 4 push 5 push 6 dump size pop pop dump\n"},
+  {"stdin": "pop peek pop\n"},
+  {"stdin": "push 9 peek peek pop pop\n"},
+  {"stdin": "jump push 1 fly dump swim\n"},
+  {"stdin": "push 1 push x\n"},
+  {"stdin": "push 1 push 2 push 3 pop pop push 4 push 5 push 6 push 7 dump size\n"}
+]}

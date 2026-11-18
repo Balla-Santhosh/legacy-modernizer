@@ -1,0 +1,379 @@
+{
+  "seed_prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.\nTranslate the given C program into a single, complete C++17 source file.\nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.\nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.",
+  "best_prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.  \nTranslate the given C program into a single, complete C++17 source file.  \nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.  \nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.  \n\n- Scan the original code for any used standard\u2011library identifiers and automatically prepend the corresponding `<...>` headers before any compilation attempt, ensuring missing\u2011include errors never abort the migration.  \n- After each header insertion, run a compilation step and repeat the include\u2011search loop until the file compiles cleanly (no errors, only harmless warnings).  \n- Leave existing macro definitions unchanged; do not introduce new macros or rewrite them, even if they contain side\u2011effects or lack parentheses.  \n- Keep original assignment\u2011in\u2011if patterns, implicit int\u2011to\u2011bool conversions, and similar legacy constructs untouched to preserve warning semantics and behaviour.  \n- Ignore static\u2011analysis warnings unless they cause a compilation error or test failure; focus solely on behaviour preservation.  \n\n- Do not alter the original struct or class member initialization layout unless it is provably behavior\u2011preserving.",
+  "curve": [
+    {
+      "round": 0,
+      "val": {
+        "n": 4,
+        "compile_pass": 1.0,
+        "test_pass": 0.9166666666666666,
+        "speedup_term": 0.0,
+        "warning_term": 0.075,
+        "mean_speedup": null,
+        "mean_warnings": 0.75,
+        "score": 0.7592
+      },
+      "files": [
+        {
+          "file": "bits.c",
+          "status": "ok",
+          "warnings": 3,
+          "detail": ""
+        },
+        {
+          "file": "csv_fields.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "float_accum.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "int_reader.c",
+          "status": "tests 4/6",
+          "warnings": 0,
+          "detail": "case 2 args=[] stdin='5 6 seven 8\\n': stdout differs\n  expected: 'read 2 ints, sum 11, min 5, max 6, mean 5.50\\nstopped at \"seven\"\\n'\n  got:      'read 2 ints, sum 11, min 5, max 6, mean 5.50\\n'"
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "val": {
+        "n": 4,
+        "compile_pass": 1.0,
+        "test_pass": 1.0,
+        "speedup_term": 0.0,
+        "warning_term": 0.25,
+        "mean_speedup": null,
+        "mean_warnings": 2.5,
+        "score": 0.775
+      }
+    },
+    {
+      "round": 2,
+      "val": {
+        "n": 4,
+        "compile_pass": 1.0,
+        "test_pass": 1.0,
+        "speedup_term": 0.0,
+        "warning_term": 0.2,
+        "mean_speedup": null,
+        "mean_warnings": 2.0,
+        "score": 0.78
+      }
+    }
+  ],
+  "rounds": [
+    {
+      "round": 1,
+      "current_val": 0.7592,
+      "train": {
+        "n": 9,
+        "compile_pass": 0.7777777777777778,
+        "test_pass": 0.7777777777777778,
+        "speedup_term": 0.0030308796108083767,
+        "warning_term": 0.21428571428571427,
+        "mean_speedup": 1.0190874917036177,
+        "mean_warnings": 2.142857142857143,
+        "score": 0.6011
+      },
+      "gradient": "1. **Enforce automatic header insertion** \u2013 Require the model to add any standard headers that become necessary for used symbols (e.g., `<iostream>` when `std::cin`/`std::cout` appear), so missing\u2011include compile errors never arise.\n\n2. **Validate compilation before finishing** \u2013 Instruct the agent to run a quick compile check on the generated file and, if it fails, to iteratively add the missing includes or fix obvious syntax issues rather than outputting the broken code.\n\n3. **Preserve macro semantics explicitly** \u2013 Tell the model to leave macro definitions untouched and to avoid introducing new macros or refactoring existing ones, preventing the \u201cbugprone\u2011macro\u2011*\u201d static warnings that stem from altered evaluation order.\n\n4. **Guard against implicit\u2011int\u2011to\u2011bool conversions in conditionals** \u2013 Add a guideline to keep original assignment\u2011in\u2011if patterns (e.g., `if (x = foo())`) unchanged, so the \u201cbugprone\u2011assignment\u2011in\u2011if\u201d warnings do not appear.\n\n5. **Limit modern\u2011only rewrites that change default initialization** \u2013 Advise the model to retain the original struct/class member initialization layout unless it is guaranteed to be behavior\u2011preserving, avoiding \u201cuninitMemberVar\u201d and default\u2011member\u2011init warnings.",
+      "candidates": [
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.  \nTranslate the given C program into a single, complete C++17 source file.  \nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.  \nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.  \n\n- Insert any required standard headers automatically so the generated file compiles without missing\u2011include errors.  \n- After generation, perform a quick compile check and iteratively add missing includes or fix obvious syntax issues until the file compiles successfully.  \n- Leave existing macro definitions unchanged and do not introduce new macros or refactor the original ones.  \n- Keep original assignment\u2011in\u2011if patterns and other implicit int\u2011to\u2011bool conversions unchanged to avoid altering warning semantics.  \n- Do not alter the original struct or class member initialization layout unless it is provably behavior\u2011preserving.",
+          "val": {
+            "n": 4,
+            "compile_pass": 1.0,
+            "test_pass": 1.0,
+            "speedup_term": 0.0,
+            "warning_term": 0.25,
+            "mean_speedup": null,
+            "mean_warnings": 2.5,
+            "score": 0.775
+          },
+          "files": [
+            {
+              "file": "bits.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            },
+            {
+              "file": "csv_fields.c",
+              "status": "ok",
+              "warnings": 1,
+              "detail": ""
+            },
+            {
+              "file": "float_accum.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            },
+            {
+              "file": "int_reader.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.\nTranslate the given C program into a single, complete C++17 source file.\nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.\nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.\n\n- Automatically insert any standard headers required for the symbols you use (e.g., <iostream> for std::cout).\n- After generation, run a quick compilation check and iteratively add missing includes or fix obvious syntax errors before responding.\n- Leave all existing macro definitions untouched and do not introduce new macros.\n- Keep original assignment\u2011in\u2011if patterns and struct/class member initialization layouts unchanged unless you can prove the rewrite is behavior\u2011preserving.",
+          "val": {
+            "n": 4,
+            "compile_pass": 1.0,
+            "test_pass": 0.9166666666666666,
+            "speedup_term": 0.0,
+            "warning_term": 0.2,
+            "mean_speedup": null,
+            "mean_warnings": 2.0,
+            "score": 0.7467
+          },
+          "files": [
+            {
+              "file": "bits.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            },
+            {
+              "file": "csv_fields.c",
+              "status": "ok",
+              "warnings": 1,
+              "detail": ""
+            },
+            {
+              "file": "float_accum.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            },
+            {
+              "file": "int_reader.c",
+              "status": "tests 4/6",
+              "warnings": 1,
+              "detail": "case 2 args=[] stdin='5 6 seven 8\\n': stdout differs\n  expected: 'read 2 ints, sum 11, min 5, max 6, mean 5.50\\nstopped at \"seven\"\\n'\n  got:      'read 2 ints, sum 11, min 5, max 6, mean 5.50\\n'"
+            }
+          ]
+        }
+      ],
+      "accepted": true,
+      "seconds": 127.0,
+      "train_files": [
+        {
+          "file": "config_load.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "hashwrap.c",
+          "status": "ok",
+          "warnings": 1,
+          "detail": ""
+        },
+        {
+          "file": "macro_eval.c",
+          "status": "ok",
+          "warnings": 4,
+          "detail": ""
+        },
+        {
+          "file": "matmul.c",
+          "status": "ok",
+          "warnings": 2,
+          "detail": ""
+        },
+        {
+          "file": "parse_nums.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "report_table.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "ringbuf.c",
+          "status": "ok",
+          "warnings": 8,
+          "detail": ""
+        },
+        {
+          "file": "ticket_ids.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "ticket_ids.cpp: In function \u2018int main()\u2019:\nticket_ids.cpp:39:17: error: \u2018cin\u2019 is not a member of \u2018std\u2019\n   39 |     while (std::cin >> q) {\n      |                 ^~~\nticket_ids.cpp:8:1: note: \u2018std::cin\u2019 is defined in header \u2018<iostream>\u2019; this is probably fixable by adding \u2018#include <iostream>\u2019\n    7 | #include <array>    // for std::array\n  +++ |+#include <iostream>\n    8 |"
+        },
+        {
+          "file": "wordfreq.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "wordfreq.cpp: In function \u2018int main(int, char**)\u2019:\nwordfreq.cpp:35:22: error: \u2018cin\u2019 is not a member of \u2018std\u2019\n   35 |     while ((c = std::cin.get()) != EOF) {\n      |                      ^~~\nwordfreq.cpp:17:1: note: \u2018std::cin\u2019 is defined in header \u2018<iostream>\u2019; this is probably fixable by adding \u2018#include <iostream>\u2019\n   16 | #include <unordered_map>\n  +++ |+#include <iostream>\n   17 |"
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "current_val": 0.775,
+      "train": {
+        "n": 9,
+        "compile_pass": 0.8888888888888888,
+        "test_pass": 0.8888888888888888,
+        "speedup_term": 0.0008895932290663489,
+        "warning_term": 0.3625,
+        "mean_speedup": 1.0055649987434976,
+        "mean_warnings": 3.625,
+        "score": 0.675
+      },
+      "gradient": "1. **Guarantee required standard headers** \u2013 Instruct the model to scan the original code for any used standard library identifiers (e.g.,\u202f`std::cin`, `std::cout`, `std::getline`, `std::vector`, etc.) and automatically prepend the corresponding `<...>` includes before compilation checks, so missing\u2011include errors never abort the migration.\n\n2. **Fail\u2011fast compile verification** \u2013 Require the agent to run a compilation step **after each insertion of includes** and to repeat the include\u2011search loop until the translator reports a clean compile (no errors, only harmless warnings). This prevents a single missing header from causing a whole file to be rejected.\n\n3. **Preserve legacy macro behavior** \u2013 Emphasize that macros must be emitted exactly as in the source, even if they have repeated side\u2011effects or lack parentheses; the prompt should forbid any automatic \u201cmacro\u2011safety\u201d rewrites that could change evaluation order or expression results.\n\n4. **Avoid transformations that alter implicit conversions** \u2013 Reinforce that assignment\u2011in\u2011if, implicit int\u2011to\u2011bool, and other legacy conversion patterns must be left untouched; the model should not replace them with explicit `bool` casts or refactor them, as such changes can modify warning semantics and observable behaviour.\n\n5. **Limit static\u2011analysis\u2011driven rewrites** \u2013 When static\u2011analysis warnings appear (e.g., `cert-err34-c`, `modernize-avoid-c-arrays`), the prompt should tell the model to **ignore** these warnings unless they cause a compilation error or test failure, focusing solely on behaviour preservation rather than style clean\u2011up.",
+      "candidates": [
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.  \nTranslate the given C program into a single, complete C++17 source file.  \nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.  \nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.  \n\n- Scan the original code for any used standard\u2011library identifiers and automatically prepend the corresponding `<...>` headers before any compilation attempt, ensuring missing\u2011include errors never abort the migration.  \n- After each header insertion, run a compilation step and repeat the include\u2011search loop until the file compiles cleanly (no errors, only harmless warnings).  \n- Leave existing macro definitions unchanged; do not introduce new macros or rewrite them, even if they contain side\u2011effects or lack parentheses.  \n- Keep original assignment\u2011in\u2011if patterns, implicit int\u2011to\u2011bool conversions, and similar legacy constructs untouched to preserve warning semantics and behaviour.  \n- Ignore static\u2011analysis warnings unless they cause a compilation error or test failure; focus solely on behaviour preservation.  \n\n- Do not alter the original struct or class member initialization layout unless it is provably behavior\u2011preserving.",
+          "val": {
+            "n": 4,
+            "compile_pass": 1.0,
+            "test_pass": 1.0,
+            "speedup_term": 0.0,
+            "warning_term": 0.2,
+            "mean_speedup": null,
+            "mean_warnings": 2.0,
+            "score": 0.78
+          },
+          "files": [
+            {
+              "file": "bits.c",
+              "status": "ok",
+              "warnings": 2,
+              "detail": ""
+            },
+            {
+              "file": "csv_fields.c",
+              "status": "ok",
+              "warnings": 1,
+              "detail": ""
+            },
+            {
+              "file": "float_accum.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            },
+            {
+              "file": "int_reader.c",
+              "status": "ok",
+              "warnings": 2,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.  \nTranslate the given C program into a single, complete C++17 source file.  \nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.  \nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.  \n\n- Scan the original code for any used standard\u2011library identifiers (e.g.,\u202fstd::cin, std::cout, std::vector) and automatically prepend the corresponding `<...>` headers before any compilation attempt.  \n- After each header insertion, run a compilation step and repeat the include\u2011search loop until the file compiles cleanly (no errors, only harmless warnings).  \n- Leave existing macro definitions unchanged and do not introduce new macros or refactor the original ones.  \n- Keep original assignment\u2011in\u2011if patterns and other implicit int\u2011to\u2011bool conversions unchanged to avoid altering warning semantics.  \n- Do not alter the original struct or class member initialization layout unless it is provably behavior\u2011preserving.  \n- Ignore static\u2011analysis warnings unless they cause a compilation error or change the program\u2019s observable behaviour.",
+          "val": {
+            "n": 4,
+            "compile_pass": 1.0,
+            "test_pass": 1.0,
+            "speedup_term": 0.0,
+            "warning_term": 0.225,
+            "mean_speedup": null,
+            "mean_warnings": 2.25,
+            "score": 0.7775
+          },
+          "files": [
+            {
+              "file": "bits.c",
+              "status": "ok",
+              "warnings": 2,
+              "detail": ""
+            },
+            {
+              "file": "csv_fields.c",
+              "status": "ok",
+              "warnings": 1,
+              "detail": ""
+            },
+            {
+              "file": "float_accum.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            },
+            {
+              "file": "int_reader.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            }
+          ]
+        }
+      ],
+      "accepted": true,
+      "seconds": 307.3,
+      "train_files": [
+        {
+          "file": "config_load.c",
+          "status": "compile_failed",
+          "warnings": 3,
+          "detail": "config_load.cpp: In function \u2018int main()\u2019:\nconfig_load.cpp:19:30: error: \u2018cin\u2019 is not a member of \u2018std\u2019\n   19 |     while (std::getline(std::cin, line)) {\n      |                              ^~~\nconfig_load.cpp:10:1: note: \u2018std::cin\u2019 is defined in header \u2018<iostream>\u2019; this is probably fixable by adding \u2018#include <iostream>\u2019\n    9 | #include <vector>\n  +++ |+#include <iostream>\n   10 | \nconfig_loa"
+        },
+        {
+          "file": "hashwrap.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "macro_eval.c",
+          "status": "ok",
+          "warnings": 4,
+          "detail": ""
+        },
+        {
+          "file": "matmul.c",
+          "status": "ok",
+          "warnings": 3,
+          "detail": ""
+        },
+        {
+          "file": "parse_nums.c",
+          "status": "ok",
+          "warnings": 2,
+          "detail": ""
+        },
+        {
+          "file": "report_table.c",
+          "status": "ok",
+          "warnings": 3,
+          "detail": ""
+        },
+        {
+          "file": "ringbuf.c",
+          "status": "ok",
+          "warnings": 5,
+          "detail": ""
+        },
+        {
+          "file": "ticket_ids.c",
+          "status": "ok",
+          "warnings": 5,
+          "detail": ""
+        },
+        {
+          "file": "wordfreq.c",
+          "status": "ok",
+          "warnings": 7,
+          "detail": ""
+        }
+      ]
+    }
+  ]
+}

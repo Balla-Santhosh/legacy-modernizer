@@ -1,0 +1,8 @@
+{"cases": [
+  {"stdin": "the cat and the hat and the bat\n"},
+  {"args": ["1"], "stdin": "Hello, hello! HELLO? world.\n"},
+  {"args": ["3"], "stdin": "a b a c a b d a\n"},
+  {"stdin": ""},
+  {"args": ["0"], "stdin": "don't stop-believing 4ever x2y\n"},
+  {"stdin": "Zebra apple zebra Apple ZEBRA mango"}
+]}

@@ -1,0 +1,8 @@
+{"cases": [
+  {"stdin": "alice 91.5 3\nbob 78.25 -2\n"},
+  {"stdin": "averyveryverylongname 1e3 10\nx 0.0001 0\n"},
+  {"stdin": "a 1 1\nb 2 2\nc 3 3\nd 4.56789 400\n"},
+  {"stdin": ""},
+  {"stdin": "only 12.5 7\nbroken line here\nafter 1 1\n"},
+  {"stdin": "neg -3.14159 -255\n"}
+]}

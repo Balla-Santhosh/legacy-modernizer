@@ -1,0 +1,8 @@
+{"cases": [
+  {"stdin": "a,b,c\n"},
+  {"stdin": "a,,b\n,lead\ntrail,\n"},
+  {"stdin": ",,,\n\nx\n"},
+  {"stdin": " spaced , kept ,\n"},
+  {"stdin": ""},
+  {"stdin": "no newline at end,1,2"}
+]}

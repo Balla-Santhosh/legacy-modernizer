@@ -1,0 +1,8 @@
+{"cases": [
+  {"args": ["rev", "hello", "world"]},
+  {"args": ["upper", "legacy", "code", "42"]},
+  {"args": ["join", "a", "b", "c"]},
+  {"args": ["rev", "x"]},
+  {"args": ["bogus", "x"]},
+  {"args": ["rev"]}
+]}

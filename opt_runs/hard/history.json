@@ -1,0 +1,195 @@
+{
+  "seed_prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.\nTranslate the given C program into a single, complete C++17 source file.\nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.\nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.",
+  "best_prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.\nTranslate the given C program into a single, complete C++17 source file.\nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.\nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.",
+  "curve": [
+    {
+      "round": 0,
+      "val": {
+        "n": 4,
+        "compile_pass": 0.75,
+        "test_pass": 0.75,
+        "speedup_term": 0.0,
+        "warning_term": 0.10000000000000002,
+        "mean_speedup": null,
+        "mean_warnings": 1.0,
+        "score": 0.59
+      }
+    },
+    {
+      "round": 1,
+      "val": {
+        "n": 4,
+        "compile_pass": 0.75,
+        "test_pass": 0.75,
+        "speedup_term": 0.0,
+        "warning_term": 0.10000000000000002,
+        "mean_speedup": null,
+        "mean_warnings": 1.0,
+        "score": 0.59
+      }
+    },
+    {
+      "round": 2,
+      "val": {
+        "n": 4,
+        "compile_pass": 0.75,
+        "test_pass": 0.75,
+        "speedup_term": 0.0,
+        "warning_term": 0.10000000000000002,
+        "mean_speedup": null,
+        "mean_warnings": 1.0,
+        "score": 0.59
+      }
+    },
+    {
+      "round": 3,
+      "val": {
+        "n": 4,
+        "compile_pass": 0.75,
+        "test_pass": 0.75,
+        "speedup_term": 0.0,
+        "warning_term": 0.10000000000000002,
+        "mean_speedup": null,
+        "mean_warnings": 1.0,
+        "score": 0.59
+      }
+    }
+  ],
+  "rounds": [
+    {
+      "round": 1,
+      "current_val": 0.59,
+      "train": {
+        "n": 9,
+        "compile_pass": 0.6666666666666666,
+        "test_pass": 0.6296296296296297,
+        "speedup_term": -0.0038602592660224194,
+        "warning_term": 0.13333333333333333,
+        "mean_speedup": 0.9762060964767002,
+        "mean_warnings": 1.3333333333333333,
+        "score": 0.5048
+      },
+      "gradient": "1. **Enforce a single, complete source file inside a fenced code block.**  \n   *The agent must always return one self\u2011contained C++17 program wrapped in a markdown code fence; otherwise the submission is considered a compile failure.*\n\n2. **Preserve exact I/O semantics of the original C program.**  \n   - Replicate the original \u201cstop at token\u201d behavior: when reading integers stops on the first non\u2011numeric token, the program must output the exact message `stopped at \"<token>\"` (including the token that caused the stop) before terminating.  \n   - Do **not** replace the original parsing logic with a simple `std::cin >> int` that silently discards the offending token; instead implement a token\u2011by\u2011token read that matches the legacy C implementation.\n\n3. **Maintain the original integer\u2011conversion semantics.**  \n   - If the legacy code used `atoi`, keep the same semantics (no error reporting, undefined on overflow) or deliberately switch to `strtol` **and** reproduce the same fallback behavior and messages.  \n   - Avoid `std::stoi` or other throwing conversions, as they change exit codes and error handling.\n\n4. **Eliminate user\u2011defined macros or make them safe.**  \n   - Replace macros with `constexpr` functions or inline functions.  \n   - When a macro is unavoidable, ensure the replacement list is fully parenthesized and that arguments are evaluated exactly once to avoid side\u2011effect duplication warnings.\n\n5. **Address the specific static\u2011analysis findings.**  \n   - Replace ineffective `substr` calls that copy a prefix onto itself with `resize()`/`pop_back()` or equivalent in\u2011place operations.  \n   - Use `auto` only when it does not obscure a necessary cast that affects program logic; otherwise keep explicit types for clarity.\n\n6. **General quality clause.**  \n   - After generation, the agent should run a quick clang\u2011tidy / cppcheck pass and fix any warnings that would otherwise lower the score (e.g., macro parentheses, `atoi` warnings, redundant `auto` casts).\n\nBy prioritising (1)\u2011(3) the agent will avoid compile failures and the most common functional test mismatches; (4)\u2011(5) will raise the static\u2011analysis score; (6) ensures consistent quality across all migrated files.",
+      "candidates": [
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.\n\n**Task**  \nTranslate the supplied C program into a single, self\u2011contained C++17 source file and return it inside a markdown fenced code block (```cpp \u2026 ```). The file must compile on its own.\n\n**Functional correctness**  \n- Preserve the original observable behaviour exactly: identical output text, formatting and exit codes.  \n- Replicate any \u201cstop at token\u201d logic: when integer input halts on the first non\u2011numeric token, output `stopped at \"<token>\"` (including the offending token) before terminating.  \n- Perform token\u2011by\u2011token reading that matches the legacy implementation; do not replace it with a plain `std::cin >> int` that silently skips the token.\n\n**Conversion semantics**  \n- Keep integer\u2011conversion behaviour identical to the original (e.g., `atoi`\u2011style, no exceptions, same overflow handling). If you substitute `strtol`, reproduce the same fallback messages and exit status.  \n- Avoid `std::stoi` or other throwing converters.\n\n**Macros**  \n- Eliminate user\u2011defined macros; replace them with `constexpr` or `inline` functions.  \n- If a macro is unavoidable, fully parenthesize the replacement list and ensure each argument is evaluated exactly once.\n\n**Static\u2011analysis hygiene**  \n- Remove ineffective `substr` copies; use in\u2011place operations such as `resize()` or `pop_back()` instead.  \n- Use `auto` only when it does not hide a cast that influences program logic; otherwise keep explicit types.  \n- After generation, run a quick clang\u2011tidy / cppcheck pass and fix any warnings (macro parentheses, `atoi` warnings, redundant `auto`, etc.).\n\n**Modern C++ style**  \n- Prefer safe idioms (`std::string`, `std::vector`, RAII) over manual memory management while respecting the above constraints.\n\nFollow these concise rules to produce a compile\u2011ready, behavior\u2011preserving C++17 translation.",
+          "val": {
+            "n": 4,
+            "compile_pass": 0.5,
+            "test_pass": 0.5,
+            "speedup_term": 0.0,
+            "warning_term": 0.3,
+            "mean_speedup": null,
+            "mean_warnings": 3.0,
+            "score": 0.37
+          }
+        },
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.\n\n**Task**  \nTranslate the supplied C program into a single, self\u2011contained C++17 source file and return it inside a markdown fenced code block (```cpp \u2026 ```). The file must compile on its own.\n\n**Functional correctness**  \n- Preserve the original observable behaviour exactly: identical output text, formatting and exit codes.  \n- Replicate any \u201cstop at token\u201d logic: when integer input halts on the first non\u2011numeric token, output `stopped at \"<token>\"` (including the offending token) before terminating.  \n- Perform token\u2011by\u2011token reading that matches the legacy implementation; do not replace it with a plain `std::cin >> int` that silently skips the token.\n\n**Conversion semantics**  \n- Keep integer\u2011conversion behaviour identical to the original (e.g., `atoi`\u2011style, no exceptions, same overflow handling). If you substitute `strtol`, reproduce the same fallback messages and exit status.  \n- Avoid `std::stoi` or other throwing converters.\n\n**Macros**  \n- Eliminate user\u2011defined macros; replace them with `constexpr` or `inline` functions.  \n- If a macro is unavoidable, fully parenthesize the replacement list and ensure each argument is evaluated exactly once.\n\n**Static\u2011analysis hygiene**  \n- Remove ineffective `substr` copies; use in\u2011place operations such as `resize()` or `pop_back()` instead.  \n- Use `auto` only when it does not hide a cast that influences program logic; otherwise keep explicit types.  \n- After generation, run a quick clang\u2011tidy / cppcheck pass and fix any warnings (macro parentheses, `atoi` warnings, redundant `auto`, etc.).\n\n**Modern C++ style**  \n- Prefer safe idioms (`std::string`, `std::vector`, RAII) over manual memory management while respecting the above constraints.\n\nFollow these concise rules to produce a compile\u2011ready, behavior\u2011preserving C++17 translation.",
+          "val": {
+            "n": 4,
+            "compile_pass": 0.5,
+            "test_pass": 0.5,
+            "speedup_term": 0.0,
+            "warning_term": 0.3,
+            "mean_speedup": null,
+            "mean_warnings": 3.0,
+            "score": 0.37
+          }
+        }
+      ],
+      "accepted": false,
+      "seconds": 101.4
+    },
+    {
+      "round": 2,
+      "current_val": 0.59,
+      "train": {
+        "n": 9,
+        "compile_pass": 0.6666666666666666,
+        "test_pass": 0.6296296296296297,
+        "speedup_term": 0.03594244547387342,
+        "warning_term": 0.13333333333333333,
+        "mean_speedup": 1.2513470895510252,
+        "mean_warnings": 1.3333333333333333,
+        "score": 0.5088
+      },
+      "gradient": "<gradient>\n1. **Enforce complete, fenced output** \u2013 Instruct the model to always wrap the generated program in a single fenced code block and to guarantee that the block contains a compilable C++17 source file. This prevents the \u201cno code\u201d compile failures observed for several files.\n\n2. **Exact I/O and termination semantics** \u2013 Require the translation to preserve *all* observable behaviour, including any diagnostic messages that the original C program prints when input parsing stops (e.g., `stopped at \"x\"`). The prompt should explicitly mention handling of premature input termination and reproducing the exact wording and newline placement.\n\n3. **Robust numeric conversion** \u2013 Prohibit the use of `atoi`/`atol` and similar C\u2011style functions. Ask the model to use C++ conversion utilities (`std::stoi`, `std::stol`, or `std::from_chars`) with proper error checking so that the program can detect non\u2011numeric tokens and emit the original \u201cstopped at \u2026\u201d message. This eliminates the clang\u2011tidy `cert-err34-c` warnings.\n\n4. **Avoid macros and side\u2011effect duplication** \u2013 Direct the model to replace macro definitions with `constexpr`/`inline` functions or templates, and to ensure any expression arguments are evaluated exactly once. This addresses the `bugprone-macro-parentheses` and `bugprone-macro-repeated-side-effects` warnings.\n\n5. **Eliminate unnecessary string operations** \u2013 Advise the model to avoid patterns like `s = s.substr(0, s.size()-1)` when simply removing the last character; use `pop_back()` or `resize()` instead. This resolves the cppcheck `uselessCallsSubstr` performance finding.\n\n6. **Prefer modern type deduction** \u2013 Encourage the use of `auto` where the type is obvious (e.g., after a cast) to satisfy `modernize-use-auto` suggestions without sacrificing readability.\n\n7. **Maintain original exit codes** \u2013 Explicitly state that the translated program must return the same exit status as the source (typically `0` on success, non\u2011zero on error) to preserve behaviour across test harnesses.\n\n8. **Static\u2011analysis clean code** \u2013 Add a checklist item that the generated file must compile with `-Wall -Wextra -pedantic` and produce no clang\u2011tidy or cppcheck warnings, ensuring higher quality and preventing hidden bugs.\n\n9. **Single\u2011file self\u2011containment** \u2013 Reinforce that all necessary `#include`s, `using` statements, and helper functions must be present in the single output file, guaranteeing successful compilation without external dependencies.\n\nBy integrating these clarifications into the system prompt, future migrations will compile, pass the functional tests (including edge\u2011case input handling), and meet static\u2011analysis standards.",
+      "candidates": [
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.\n\n**Task**  \nTranslate the supplied C program into a single, complete C++17 source file that compiles with `-std=c++17 -Wall -Wextra -pedantic` and produces **exactly** the same observable behaviour (output text, formatting, diagnostic messages, exit codes).\n\n**Guidelines**\n\n1. **Fenced output** \u2013 Always wrap the generated program in one fenced code block (```cpp ... ```). The block must contain a self\u2011contained, compilable C++17 source file.\n\n2. **Exact I/O & termination** \u2013 Preserve every character of output, including any diagnostic messages produced when input parsing stops (e.g., \u201cstopped at\u00a0\u2026\u201d). Replicate newline placement and exit status precisely.\n\n3. **Robust numeric conversion** \u2013 Use C++ conversion facilities (`std::stoi`, `std::stol`, `std::from_chars`, etc.) with proper error checking. Do **not** use `atoi`, `atol`, or other C\u2011style functions.\n\n4. **Replace macros** \u2013 Convert macro definitions to `constexpr`, `inline` functions, or templates. Ensure arguments are evaluated exactly once to avoid side\u2011effect duplication.\n\n5. **Efficient string handling** \u2013 Prefer `pop_back()`, `resize()`, or `erase()` over `substr` when removing characters or trimming strings.\n\n6. **Modern type deduction** \u2013 Use `auto` where the type is obvious (e.g., after a conversion) to satisfy modern\u2011C++ style without hurting readability.\n\n7. **Preserve exit codes** \u2013 Return the same status as the original program (`0` for success, non\u2011zero for error conditions).\n\n8. **Static\u2011analysis clean** \u2013 The generated file must compile without warnings under `-Wall -Wextra -pedantic` and must not trigger clang\u2011tidy or cppcheck warnings.\n\n9. **Single\u2011file self\u2011containment** \u2013 Include all necessary `#include`s, `using` directives, and helper functions inside the single output file; no external dependencies are allowed.\n\nFollow these instructions while employing safe C++ idioms (e.g., `std::string`, `std::vector`, RAII) instead of manual memory management.",
+          "val": {
+            "n": 4,
+            "compile_pass": 0.25,
+            "test_pass": 0.25,
+            "speedup_term": 0.0,
+            "warning_term": 0.2,
+            "mean_speedup": null,
+            "mean_warnings": 2.0,
+            "score": 0.18
+          }
+        },
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.\n\n**Task**  \nTranslate the supplied C program into a single, complete C++17 source file that compiles with `-std=c++17 -Wall -Wextra -pedantic` and produces **exactly** the same observable behaviour (output text, formatting, diagnostic messages, exit codes).\n\n**Guidelines**\n\n1. **Fenced output** \u2013 Always wrap the generated program in one fenced code block (```cpp ... ```). The block must contain a self\u2011contained, compilable C++17 source file.\n\n2. **Exact I/O & termination** \u2013 Preserve every character of output, including any diagnostic messages produced when input parsing stops (e.g., \u201cstopped at\u00a0\u2026\u201d). Replicate newline placement and exit status precisely.\n\n3. **Robust numeric conversion** \u2013 Use C++ conversion facilities (`std::stoi`, `std::stol`, `std::from_chars`, etc.) with proper error checking. Do **not** use `atoi`, `atol`, or other C\u2011style functions.\n\n4. **Replace macros** \u2013 Convert macro definitions to `constexpr`, `inline` functions, or templates. Ensure arguments are evaluated exactly once to avoid side\u2011effect duplication.\n\n5. **Efficient string handling** \u2013 Prefer `pop_back()`, `resize()`, or `erase()` over `substr` when removing characters or trimming strings.\n\n6. **Modern type deduction** \u2013 Use `auto` where the type is obvious (e.g., after a conversion) to satisfy modern\u2011C++ style without hurting readability.\n\n7. **Preserve exit codes** \u2013 Return the same status as the original program (`0` for success, non\u2011zero for error conditions).\n\n8. **Static\u2011analysis clean** \u2013 The generated file must compile without warnings under `-Wall -Wextra -pedantic` and must not trigger clang\u2011tidy or cppcheck warnings.\n\n9. **Single\u2011file self\u2011containment** \u2013 Include all necessary `#include`s, `using` directives, and helper functions inside the single output file; no external dependencies are allowed.\n\nFollow these instructions while employing safe C++ idioms (e.g., `std::string`, `std::vector`, RAII) instead of manual memory management.",
+          "val": {
+            "n": 4,
+            "compile_pass": 0.25,
+            "test_pass": 0.25,
+            "speedup_term": 0.0,
+            "warning_term": 0.2,
+            "mean_speedup": null,
+            "mean_warnings": 2.0,
+            "score": 0.18
+          }
+        }
+      ],
+      "accepted": false,
+      "seconds": 107.3
+    },
+    {
+      "round": 3,
+      "current_val": 0.59,
+      "train": {
+        "n": 9,
+        "compile_pass": 0.6666666666666666,
+        "test_pass": 0.6296296296296297,
+        "speedup_term": 0.05173293913531924,
+        "warning_term": 0.13333333333333333,
+        "mean_speedup": 1.3808881348394588,
+        "mean_warnings": 1.3333333333333333,
+        "score": 0.5104
+      },
+      "gradient": "<gradient>\n1. **Enforce complete, fenced output** \u2013 Instruct the model to always wrap the generated program in a single fenced code block and to guarantee that the block contains a compilable C++17 source file. This prevents the \u201cno code\u201d compile failures observed for several files.\n\n2. **Exact I/O and termination semantics** \u2013 Require the translation to preserve *all* observable behaviour, including any diagnostic messages that the original C program prints when input parsing stops (e.g., `stopped at \"x\"`). The prompt should explicitly mention handling of premature input termination and reproducing the exact wording and newline placement.\n\n3. **Robust numeric conversion** \u2013 Prohibit the use of `atoi`/`atol` and similar C\u2011style functions. Ask the model to use C++ conversion utilities (`std::stoi`, `std::stol`, or `std::from_chars`) with proper error checking so that the program can detect non\u2011numeric tokens and emit the original \u201cstopped at \u2026\u201d message. This eliminates the clang\u2011tidy `cert-err34-c` warnings.\n\n4. **Avoid macros and side\u2011effect duplication** \u2013 Direct the model to replace macro definitions with `constexpr`/`inline` functions or templates, and to ensure any expression arguments are evaluated exactly once. This addresses the `bugprone-macro-parentheses` and `bugprone-macro-repeated-side-effects` warnings.\n\n5. **Eliminate unnecessary string operations** \u2013 Advise the model to avoid patterns like `s = s.substr(0, s.size()-1)` when simply removing the last character; use `pop_back()` or `resize()` instead. This resolves the cppcheck `uselessCallsSubstr` performance finding.\n\n6. **Prefer modern type deduction** \u2013 Encourage the use of `auto` where the type is obvious (e.g., after a cast) to satisfy `modernize-use-auto` suggestions without sacrificing readability.\n\n7. **Maintain original exit codes** \u2013 Explicitly state that the translated program must return the same exit status as the source (typically `0` on success, non\u2011zero on error) to preserve behaviour across test harnesses.\n\n8. **Static\u2011analysis clean code** \u2013 Add a checklist item that the generated file must compile with `-Wall -Wextra -pedantic` and produce no clang\u2011tidy or cppcheck warnings, ensuring higher quality and preventing hidden bugs.\n\n9. **Single\u2011file self\u2011containment** \u2013 Reinforce that all necessary `#include`s, `using` statements, and helper functions must be present in the single output file, guaranteeing successful compilation without external dependencies.\n\nBy integrating these clarifications into the system prompt, future migrations will compile, pass the functional tests (including edge\u2011case input handling), and meet static\u2011analysis standards.",
+      "candidates": [
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17. Translate the given C program into a single, complete, self\u2011contained C++17 source file and wrap it in one fenced code block (```cpp \u2026 ```). The generated program must preserve **all** observable behaviour of the original: identical output (including diagnostic messages and newline placement), handling of premature input termination, and the same exit status.\n\n**Guidelines**\n\n1. **Fenced, compilable output** \u2013 Provide exactly one ```cpp code block** that contains a file that compiles with `-std=c++17` without additional headers.\n\n2. **Exact I/O and termination** \u2013 Replicate every printed message, including error or \u201cstopped at \u2026\u201d texts, and terminate with the same exit code as the original program.\n\n3. **Robust numeric conversion** \u2013 Use `std::stoi`, `std::stol`, `std::from_chars` or similar C++ utilities with proper error checking; do not use `atoi`, `atol`, or other C\u2011style converters.\n\n4. **Replace macros** \u2013 Convert macro definitions to `constexpr`, `inline` functions, or templates, ensuring each argument is evaluated exactly once.\n\n5. **Efficient string handling** \u2013 Prefer `pop_back()`, `resize()`, or `erase()` over `substr` when removing characters.\n\n6. **Modern type deduction** \u2013 Use `auto` where the type is obvious to satisfy `modernize-use-auto` without harming readability.\n\n7. **Preserve exit codes** \u2013 Return the same status values (`0` for success, non\u2011zero for errors) as the source program.\n\n8. **Static\u2011analysis clean** \u2013 The file must compile with `-Wall -Wextra -pedantic` and generate no clang\u2011tidy or cppcheck warnings.\n\n9. **Single\u2011file self\u2011containment** \u2013 Include all required `#include`s, `using` directives, and helper functions inside the single output file; no external dependencies are allowed.\n\nFollow these instructions to produce clean, modern, and fully functional C++17 translations of the legacy C code.",
+          "val": {
+            "n": 4,
+            "compile_pass": 0.25,
+            "test_pass": 0.25,
+            "speedup_term": 0.0,
+            "warning_term": 0.0,
+            "mean_speedup": null,
+            "mean_warnings": 0.0,
+            "score": 0.2
+          }
+        },
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17. Translate the given C program into a single, complete, self\u2011contained C++17 source file and wrap it in one fenced code block (```cpp \u2026 ```). The generated program must preserve **all** observable behaviour of the original: identical output (including diagnostic messages and newline placement), handling of premature input termination, and the same exit status.\n\n**Guidelines**\n\n1. **Fenced, compilable output** \u2013 Provide exactly one ```cpp code block** that contains a file that compiles with `-std=c++17` without additional headers.\n\n2. **Exact I/O and termination** \u2013 Replicate every printed message, including error or \u201cstopped at \u2026\u201d texts, and terminate with the same exit code as the original program.\n\n3. **Robust numeric conversion** \u2013 Use `std::stoi`, `std::stol`, `std::from_chars` or similar C++ utilities with proper error checking; do not use `atoi`, `atol`, or other C\u2011style converters.\n\n4. **Replace macros** \u2013 Convert macro definitions to `constexpr`, `inline` functions, or templates, ensuring each argument is evaluated exactly once.\n\n5. **Efficient string handling** \u2013 Prefer `pop_back()`, `resize()`, or `erase()` over `substr` when removing characters.\n\n6. **Modern type deduction** \u2013 Use `auto` where the type is obvious to satisfy `modernize-use-auto` without harming readability.\n\n7. **Preserve exit codes** \u2013 Return the same status values (`0` for success, non\u2011zero for errors) as the source program.\n\n8. **Static\u2011analysis clean** \u2013 The file must compile with `-Wall -Wextra -pedantic` and generate no clang\u2011tidy or cppcheck warnings.\n\n9. **Single\u2011file self\u2011containment** \u2013 Include all required `#include`s, `using` directives, and helper functions inside the single output file; no external dependencies are allowed.\n\nFollow these instructions to produce clean, modern, and fully functional C++17 translations of the legacy C code.",
+          "val": {
+            "n": 4,
+            "compile_pass": 0.25,
+            "test_pass": 0.25,
+            "speedup_term": 0.0,
+            "warning_term": 0.0,
+            "mean_speedup": null,
+            "mean_warnings": 0.0,
+            "score": 0.2
+          }
+        }
+      ],
+      "accepted": false,
+      "seconds": 128.5
+    }
+  ]
+}

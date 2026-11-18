@@ -1,0 +1,545 @@
+{
+  "seed_prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.\nTranslate the given C program into a single, complete C++17 source file.\nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.\nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.",
+  "best_prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.\nTranslate the given C program into a single, complete C++17 source file.\nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.\nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.",
+  "curve": [
+    {
+      "round": 0,
+      "val": {
+        "n": 4,
+        "compile_pass": 1.0,
+        "test_pass": 1.0,
+        "speedup_term": 0.0,
+        "warning_term": 0.075,
+        "mean_speedup": null,
+        "mean_warnings": 0.75,
+        "score": 0.7925
+      },
+      "files": [
+        {
+          "file": "bits.c",
+          "status": "ok",
+          "warnings": 3,
+          "detail": ""
+        },
+        {
+          "file": "config_load.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "csv_fields.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "float_accum.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "val": {
+        "n": 4,
+        "compile_pass": 1.0,
+        "test_pass": 1.0,
+        "speedup_term": 0.0,
+        "warning_term": 0.075,
+        "mean_speedup": null,
+        "mean_warnings": 0.75,
+        "score": 0.7925
+      }
+    },
+    {
+      "round": 2,
+      "val": {
+        "n": 4,
+        "compile_pass": 1.0,
+        "test_pass": 1.0,
+        "speedup_term": 0.0,
+        "warning_term": 0.075,
+        "mean_speedup": null,
+        "mean_warnings": 0.75,
+        "score": 0.7925
+      }
+    },
+    {
+      "round": 3,
+      "val": {
+        "n": 4,
+        "compile_pass": 1.0,
+        "test_pass": 1.0,
+        "speedup_term": 0.0,
+        "warning_term": 0.075,
+        "mean_speedup": null,
+        "mean_warnings": 0.75,
+        "score": 0.7925
+      }
+    }
+  ],
+  "rounds": [
+    {
+      "round": 1,
+      "current_val": 0.7925,
+      "train": {
+        "n": 9,
+        "compile_pass": 0.7777777777777778,
+        "test_pass": 0.7407407407407408,
+        "speedup_term": 0.0013510468697306636,
+        "warning_term": 0.21428571428571427,
+        "mean_speedup": 1.0084638868111262,
+        "mean_warnings": 2.142857142857143,
+        "score": 0.5861
+      },
+      "gradient": "1. **Enforce explicit header inclusion** \u2013 Instruct the model to add every standard header required by the original C code (e.g., `<iostream>` for `std::cin`, `<cstdio>` for `printf`, etc.) rather than assuming they are already present.\n\n2. **Preserve legacy input\u2011parsing semantics** \u2013 When converting reads, require the model to keep the original token\u2011by\u2011token behavior (stop on the first non\u2011numeric token without consuming it) instead of using `operator>>` or other high\u2011level stream extraction that skips whitespace or consumes the offending character.\n\n3. **Maintain macro side\u2011effect semantics** \u2013 Tell the model never to rewrite macros that may evaluate arguments multiple times or lack parentheses; it should copy them verbatim to avoid altering observable behaviour.\n\n4. **Retain exact output formatting and exit handling** \u2013 Emphasize that `printf`/`fprintf` format strings, `stdout` vs `stderr`, and specific exit codes must be reproduced unchanged, even if modern C++ alternatives exist.\n\n5. **Add only necessary modernizations** \u2013 Allow use of safe C++ constructs (e.g., `std::string`, RAII) only after confirming they do not affect the program\u2019s I/O, arithmetic precision (float vs double), or control flow; otherwise keep the original C style.",
+      "candidates": [
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.  \nTranslate the given C program into a single, complete C++17 source file, explicitly including every standard header required by the original code.  \nPreserve the program's observable behaviour exactly: the same output text, formatting, stdout/stderr usage, and exit codes.  \nWhen converting input reads, retain the original token\u2011by\u2011token parsing semantics of the C code; do not use stream extraction that would skip whitespace or consume non\u2011numeric characters.  \nCopy all macros verbatim, preserving any side\u2011effect behavior or lack of parentheses.  \nApply modern, safe C++ idioms (std::string, std::vector, RAII) only where they do not alter I/O, arithmetic precision, or control flow.",
+          "val": {
+            "n": 4,
+            "compile_pass": 1.0,
+            "test_pass": 1.0,
+            "speedup_term": 0.0,
+            "warning_term": 0.45,
+            "mean_speedup": null,
+            "mean_warnings": 4.5,
+            "score": 0.755
+          },
+          "files": [
+            {
+              "file": "bits.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            },
+            {
+              "file": "config_load.c",
+              "status": "ok",
+              "warnings": 10,
+              "detail": ""
+            },
+            {
+              "file": "csv_fields.c",
+              "status": "ok",
+              "warnings": 2,
+              "detail": ""
+            },
+            {
+              "file": "float_accum.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.  \nTranslate the given C program into a single, complete C++17 source file, explicitly including every standard header required by the original code.  \nPreserve the program's observable behaviour exactly: identical output text, formatting, stdout/stderr usage, and exit codes.  \nWhen converting input operations, retain the original token\u2011by\u2011token parsing semantics, avoiding stream extraction that would consume or skip characters differently.  \nCopy all macros verbatim, preserving any side\u2011effect or parenthesization quirks.  \nApply modern, safe C++ constructs (std::string, std::vector, RAII) only where they do not alter I/O, arithmetic precision, or control flow.",
+          "val": {
+            "n": 4,
+            "compile_pass": 1.0,
+            "test_pass": 1.0,
+            "speedup_term": 0.0,
+            "warning_term": 0.45,
+            "mean_speedup": null,
+            "mean_warnings": 4.5,
+            "score": 0.755
+          },
+          "files": [
+            {
+              "file": "bits.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            },
+            {
+              "file": "config_load.c",
+              "status": "ok",
+              "warnings": 10,
+              "detail": ""
+            },
+            {
+              "file": "csv_fields.c",
+              "status": "ok",
+              "warnings": 2,
+              "detail": ""
+            },
+            {
+              "file": "float_accum.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            }
+          ]
+        }
+      ],
+      "accepted": false,
+      "seconds": 129.4,
+      "train_files": [
+        {
+          "file": "hashwrap.c",
+          "status": "ok",
+          "warnings": 1,
+          "detail": ""
+        },
+        {
+          "file": "int_reader.c",
+          "status": "tests 4/6",
+          "warnings": 0,
+          "detail": "case 2 args=[] stdin='5 6 seven 8\\n': stdout differs\n  expected: 'read 2 ints, sum 11, min 5, max 6, mean 5.50\\nstopped at \"seven\"\\n'\n  got:      'read 2 ints, sum 11, min 5, max 6, mean 5.50\\n'"
+        },
+        {
+          "file": "macro_eval.c",
+          "status": "ok",
+          "warnings": 4,
+          "detail": ""
+        },
+        {
+          "file": "matmul.c",
+          "status": "ok",
+          "warnings": 2,
+          "detail": ""
+        },
+        {
+          "file": "parse_nums.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "report_table.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "ringbuf.c",
+          "status": "ok",
+          "warnings": 8,
+          "detail": ""
+        },
+        {
+          "file": "ticket_ids.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "ticket_ids.cpp: In function \u2018int main()\u2019:\nticket_ids.cpp:39:17: error: \u2018cin\u2019 is not a member of \u2018std\u2019\n   39 |     while (std::cin >> q) {\n      |                 ^~~\nticket_ids.cpp:8:1: note: \u2018std::cin\u2019 is defined in header \u2018<iostream>\u2019; this is probably fixable by adding \u2018#include <iostream>\u2019\n    7 | #include <array>    // for std::array\n  +++ |+#include <iostream>\n    8 |"
+        },
+        {
+          "file": "wordfreq.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "wordfreq.cpp: In function \u2018int main(int, char**)\u2019:\nwordfreq.cpp:35:22: error: \u2018cin\u2019 is not a member of \u2018std\u2019\n   35 |     while ((c = std::cin.get()) != EOF) {\n      |                      ^~~\nwordfreq.cpp:17:1: note: \u2018std::cin\u2019 is defined in header \u2018<iostream>\u2019; this is probably fixable by adding \u2018#include <iostream>\u2019\n   16 | #include <unordered_map>\n  +++ |+#include <iostream>\n   17 |"
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "current_val": 0.7925,
+      "train": {
+        "n": 9,
+        "compile_pass": 0.7777777777777778,
+        "test_pass": 0.7407407407407408,
+        "speedup_term": -0.005826747615468439,
+        "warning_term": 0.21428571428571427,
+        "mean_speedup": 0.9643035547368191,
+        "mean_warnings": 2.142857142857143,
+        "score": 0.5854
+      },
+      "gradient": "1. **Guarantee required standard headers** \u2013 automatically add `<iostream>` (and any other missing headers) whenever the migrated code uses `std::cin`, `std::cout`, or related I/O objects, to prevent compilation failures.\n\n2. **Preserve legacy input\u2011parsing semantics** \u2013 when translating integer\u2011reading loops, keep the original \u201cstop at first non\u2011numeric token\u201d behavior (do not consume the offending character and emit the same \u201cstopped at \u2026\u201d message). Use `std::cin >> var` with proper break logic rather than `std::getline` or other parsing that changes token handling.\n\n3. **Leave macro definitions untouched** \u2013 do not rewrite macros that may evaluate arguments twice, lack parentheses, or rely on side\u2011effects; the prompt should forbid any macro\u2011modernisation that could alter their runtime behaviour.\n\n4. **Restrict loop modernisation that changes observable state** \u2013 avoid converting loops (e.g., `for`\u2192range\u2011for) when the transformation could alter variable lifetimes, ordering, or side\u2011effects that affect output or exit codes.\n\n5. **Explicitly retain exact formatting and arithmetic types** \u2013 mandate that `printf`/`scanf` format strings, `float` vs `double` usage, and exact exit codes remain unchanged, ensuring behaviour\u2011preserving migration over stylistic improvements.",
+      "candidates": [
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.  \nTranslate the given C program into a single, complete C++17 source file.  \nPreserve the program's observable behaviour exactly: identical output text, formatting, and exit codes.  \nGuarantee inclusion of any required standard headers (e.g., <iostream>) needed for used I/O objects.  \nMaintain legacy input\u2011parsing semantics, especially the \u201cstop at first non\u2011numeric token\u201d behavior of integer reads.  \nLeave all macro definitions unchanged; do not modify macros that rely on side\u2011effects or lack parentheses.  \nAvoid loop transformations that could change variable lifetimes, ordering, or side\u2011effects affecting output.  \nRetain exact format strings, floating\u2011point types, and exit codes; do not alter them for stylistic reasons.  \nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.",
+          "val": {
+            "n": 4,
+            "compile_pass": 1.0,
+            "test_pass": 1.0,
+            "speedup_term": 0.0,
+            "warning_term": 0.22499999999999998,
+            "mean_speedup": null,
+            "mean_warnings": 2.25,
+            "score": 0.7775
+          },
+          "files": [
+            {
+              "file": "bits.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            },
+            {
+              "file": "config_load.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            },
+            {
+              "file": "csv_fields.c",
+              "status": "ok",
+              "warnings": 0,
+              "detail": ""
+            },
+            {
+              "file": "float_accum.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.  \nTranslate the given C program into a single, complete C++17 source file.  \nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.  \nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management.  \n\n- Automatically include any required standard headers (e.g., <iostream>) when the migrated code uses standard I/O objects.  \n- Retain legacy input\u2011parsing semantics, such as stopping at the first non\u2011numeric token, using `std::cin >>` with appropriate break logic.  \n- Leave all macro definitions unchanged; do not rewrite macros that may rely on side\u2011effects or specific evaluation order.  \n- Avoid loop transformations that could alter variable lifetimes, ordering, or side\u2011effects affecting output or exit codes.  \n- Keep exact format strings, floating\u2011point types, and exit codes identical to the original program.",
+          "val": {
+            "n": 4,
+            "compile_pass": 0.75,
+            "test_pass": 0.75,
+            "speedup_term": 0.0,
+            "warning_term": 0.26666666666666666,
+            "mean_speedup": null,
+            "mean_warnings": 2.6666666666666665,
+            "score": 0.5733
+          },
+          "files": [
+            {
+              "file": "bits.c",
+              "status": "ok",
+              "warnings": 2,
+              "detail": ""
+            },
+            {
+              "file": "config_load.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            },
+            {
+              "file": "csv_fields.c",
+              "status": "compile_failed",
+              "warnings": 0,
+              "detail": "csv_fields.cpp: In function \u2018int main()\u2019:\ncsv_fields.cpp:17:25: error: \u2018find_if\u2019 is not a member of \u2018std\u2019; did you mean \u2018find\u2019?\n   17 |         line.erase(std::find_if(line.rbegin(), line.rend(),\n      |                         ^~~~~~~\n      |                         find"
+            },
+            {
+              "file": "float_accum.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            }
+          ]
+        }
+      ],
+      "accepted": false,
+      "seconds": 152.1,
+      "train_files": [
+        {
+          "file": "hashwrap.c",
+          "status": "ok",
+          "warnings": 1,
+          "detail": ""
+        },
+        {
+          "file": "int_reader.c",
+          "status": "tests 4/6",
+          "warnings": 0,
+          "detail": "case 2 args=[] stdin='5 6 seven 8\\n': stdout differs\n  expected: 'read 2 ints, sum 11, min 5, max 6, mean 5.50\\nstopped at \"seven\"\\n'\n  got:      'read 2 ints, sum 11, min 5, max 6, mean 5.50\\n'"
+        },
+        {
+          "file": "macro_eval.c",
+          "status": "ok",
+          "warnings": 4,
+          "detail": ""
+        },
+        {
+          "file": "matmul.c",
+          "status": "ok",
+          "warnings": 2,
+          "detail": ""
+        },
+        {
+          "file": "parse_nums.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "report_table.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "ringbuf.c",
+          "status": "ok",
+          "warnings": 8,
+          "detail": ""
+        },
+        {
+          "file": "ticket_ids.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "ticket_ids.cpp: In function \u2018int main()\u2019:\nticket_ids.cpp:39:17: error: \u2018cin\u2019 is not a member of \u2018std\u2019\n   39 |     while (std::cin >> q) {\n      |                 ^~~\nticket_ids.cpp:8:1: note: \u2018std::cin\u2019 is defined in header \u2018<iostream>\u2019; this is probably fixable by adding \u2018#include <iostream>\u2019\n    7 | #include <array>    // for std::array\n  +++ |+#include <iostream>\n    8 |"
+        },
+        {
+          "file": "wordfreq.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "wordfreq.cpp: In function \u2018int main(int, char**)\u2019:\nwordfreq.cpp:35:22: error: \u2018cin\u2019 is not a member of \u2018std\u2019\n   35 |     while ((c = std::cin.get()) != EOF) {\n      |                      ^~~\nwordfreq.cpp:17:1: note: \u2018std::cin\u2019 is defined in header \u2018<iostream>\u2019; this is probably fixable by adding \u2018#include <iostream>\u2019\n   16 | #include <unordered_map>\n  +++ |+#include <iostream>\n   17 |"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "current_val": 0.7925,
+      "train": {
+        "n": 9,
+        "compile_pass": 0.7777777777777778,
+        "test_pass": 0.7407407407407408,
+        "speedup_term": -0.0009266948798815364,
+        "warning_term": 0.21428571428571427,
+        "mean_speedup": 0.9942356544731868,
+        "mean_warnings": 2.142857142857143,
+        "score": 0.5859
+      },
+      "gradient": "1. **Require explicit inclusion of all needed standard headers** \u2013 the prompt should tell the model to add any missing `<iostream>` (or other) includes required for used symbols instead of assuming they are present.\n\n2. **Preserve legacy input parsing semantics** \u2013 when converting code that reads numbers, mandate keeping the original \u201cstop at first non\u2011numeric token without consuming it\u201d behaviour (e.g., emulate `scanf`/`strtol` logic) rather than replacing it with `operator>>` which skips and discards characters.\n\n3. **Do not rewrite macros that have side\u2011effects or lack parentheses** \u2013 the prompt must instruct the model to copy macro definitions verbatim, even if they are unsafe, to avoid changing observable behaviour.\n\n4. **Maintain exact output formatting and exit codes** \u2013 emphasise that `printf` format strings, `stderr` vs `stdout`, and the program\u2019s exit status must be reproduced precisely, discouraging any \u201cmodernise\u2011only\u201d changes that could alter spacing or line endings.\n\n5. **When adding modern C++ constructs, ensure they do not alter evaluation order or type width** \u2013 e.g., keep `float` arithmetic as `float`, avoid implicit widening to `double`, and retain the original order of evaluation for expressions involving macros or comma\u2011separated arguments.",
+      "candidates": [
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.  \nTranslate the given C program into a single, complete C++17 source file.  \nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.  \n\n- Include explicitly every standard header required for the symbols used in the translated code.  \n- Preserve legacy input\u2011parsing semantics; when the original code stops at the first non\u2011numeric character without consuming it, emulate that behavior rather than using `operator>>`.  \n- Copy macro definitions verbatim, even if they lack parentheses or have side\u2011effects, to avoid altering their runtime behavior.  \n- Reproduce `printf`/`fprintf` format strings, `stdout` vs `stderr` usage, and exit status precisely.  \n- When introducing modern C++ constructs, do not change evaluation order or type width (e.g., keep `float` arithmetic as `float` and maintain original expression ordering).  \n\nUse modern, safe C++ idioms (std::string, std::vector, RAII) instead of manual memory management, but only where they do not affect the observable behavior.",
+          "val": {
+            "n": 4,
+            "compile_pass": 1.0,
+            "test_pass": 1.0,
+            "speedup_term": 0.0,
+            "warning_term": 0.275,
+            "mean_speedup": null,
+            "mean_warnings": 2.75,
+            "score": 0.7725
+          },
+          "files": [
+            {
+              "file": "bits.c",
+              "status": "ok",
+              "warnings": 2,
+              "detail": ""
+            },
+            {
+              "file": "config_load.c",
+              "status": "ok",
+              "warnings": 4,
+              "detail": ""
+            },
+            {
+              "file": "csv_fields.c",
+              "status": "ok",
+              "warnings": 2,
+              "detail": ""
+            },
+            {
+              "file": "float_accum.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "prompt": "You are an expert software engineer migrating legacy C programs to modern C++17.  \nTranslate the given C program into a single, complete C++17 source file.  \nPreserve the program's observable behaviour exactly: the same output text, formatting and exit codes.  \n\nInclude every standard header required for the symbols you use; do not assume any header is pre\u2011included.  \nWhen converting input parsing, replicate the original C semantics (e.g., stop at the first non\u2011numeric character without consuming it) rather than using `operator>>` which skips characters.  \nCopy macro definitions verbatim, even if they lack parentheses or have side\u2011effects, to avoid altering their behaviour.  \nReproduce `printf`/`fprintf` format strings, `stdout` vs `stderr` usage, and exit status precisely; do not change spacing, line endings, or stream selection.  \nIf you introduce modern C++ constructs, ensure they do not change evaluation order, type width, or implicit promotions (e.g., keep `float` arithmetic as `float`).  \nUse modern, safe C++ idioms (std::string, std::vector, RAII) only where they do not affect the program's observable behavior.",
+          "val": {
+            "n": 4,
+            "compile_pass": 1.0,
+            "test_pass": 1.0,
+            "speedup_term": 0.0,
+            "warning_term": 0.425,
+            "mean_speedup": null,
+            "mean_warnings": 4.25,
+            "score": 0.7575
+          },
+          "files": [
+            {
+              "file": "bits.c",
+              "status": "ok",
+              "warnings": 2,
+              "detail": ""
+            },
+            {
+              "file": "config_load.c",
+              "status": "ok",
+              "warnings": 10,
+              "detail": ""
+            },
+            {
+              "file": "csv_fields.c",
+              "status": "ok",
+              "warnings": 2,
+              "detail": ""
+            },
+            {
+              "file": "float_accum.c",
+              "status": "ok",
+              "warnings": 3,
+              "detail": ""
+            }
+          ]
+        }
+      ],
+      "accepted": false,
+      "seconds": 144.8,
+      "train_files": [
+        {
+          "file": "hashwrap.c",
+          "status": "ok",
+          "warnings": 1,
+          "detail": ""
+        },
+        {
+          "file": "int_reader.c",
+          "status": "tests 4/6",
+          "warnings": 0,
+          "detail": "case 2 args=[] stdin='5 6 seven 8\\n': stdout differs\n  expected: 'read 2 ints, sum 11, min 5, max 6, mean 5.50\\nstopped at \"seven\"\\n'\n  got:      'read 2 ints, sum 11, min 5, max 6, mean 5.50\\n'"
+        },
+        {
+          "file": "macro_eval.c",
+          "status": "ok",
+          "warnings": 4,
+          "detail": ""
+        },
+        {
+          "file": "matmul.c",
+          "status": "ok",
+          "warnings": 2,
+          "detail": ""
+        },
+        {
+          "file": "parse_nums.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "report_table.c",
+          "status": "ok",
+          "warnings": 0,
+          "detail": ""
+        },
+        {
+          "file": "ringbuf.c",
+          "status": "ok",
+          "warnings": 8,
+          "detail": ""
+        },
+        {
+          "file": "ticket_ids.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "ticket_ids.cpp: In function \u2018int main()\u2019:\nticket_ids.cpp:39:17: error: \u2018cin\u2019 is not a member of \u2018std\u2019\n   39 |     while (std::cin >> q) {\n      |                 ^~~\nticket_ids.cpp:8:1: note: \u2018std::cin\u2019 is defined in header \u2018<iostream>\u2019; this is probably fixable by adding \u2018#include <iostream>\u2019\n    7 | #include <array>    // for std::array\n  +++ |+#include <iostream>\n    8 |"
+        },
+        {
+          "file": "wordfreq.c",
+          "status": "compile_failed",
+          "warnings": 0,
+          "detail": "wordfreq.cpp: In function \u2018int main(int, char**)\u2019:\nwordfreq.cpp:35:22: error: \u2018cin\u2019 is not a member of \u2018std\u2019\n   35 |     while ((c = std::cin.get()) != EOF) {\n      |                      ^~~\nwordfreq.cpp:17:1: note: \u2018std::cin\u2019 is defined in header \u2018<iostream>\u2019; this is probably fixable by adding \u2018#include <iostream>\u2019\n   16 | #include <unordered_map>\n  +++ |+#include <iostream>\n   17 |"
+        }
+      ]
+    }
+  ]
+}

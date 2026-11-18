@@ -1,0 +1,7 @@
+{"cases": [
+  {"stdin": "alpha beta gamma\n"},
+  {"stdin": "a b c a b c a\n"},
+  {"stdin": ""},
+  {"stdin": "zz\nbb\naa\nb\n"},
+  {"stdin": "q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q q\n"}
+]}
